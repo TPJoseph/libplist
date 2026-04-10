@@ -337,6 +337,13 @@ int main(int argc, char *argv[])
             return 1;
         }
         read_size = fread(plist_entire, sizeof(char), filestats.st_size, iplist);
+        if (read_size != (size_t)filestats.st_size) {
+            fprintf(stderr, "ERROR: Could not read from input file '%s'\n", options->in_file);
+            fclose(iplist);
+            free(plist_entire);
+            free(options);
+            return 1;
+        }
         plist_entire[read_size] = '\0';
         fclose(iplist);
     }
